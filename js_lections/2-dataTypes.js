@@ -2,19 +2,21 @@
 -----------------------
 1. Примітивні (Прості) типи 
 -String (Текст)
---Number ((Int) Число)
+-Number ((Int) Число)
 -Boolean (логічний тип) 
 -null
 -undefined
--symbol
+-Symbol
 -bigint
 --------------------------
-2. Об'єкти
+2. Об'єкти 
+Звичайні:
 -об'єкт {}
--массиви
+Спеціальні:
+-масиви
 -об'єкт дати
 -регулярні вирази
--помилки (errors)
+-помилки (errors) - -ексепшени
 */
 
 let number = 5;
@@ -23,7 +25,7 @@ let floatNumber = 5.5;
 console.log(4/0); //infinity
 console.log(-4/0); //infinity
 
-console.log("string"*4); //NaN
+console.log("string" * 4); //NaN
 
 //boolean
 //бінарний тип, може приймати тільки 2 значення, для збкрігання первних логічних операцій(true, false)
