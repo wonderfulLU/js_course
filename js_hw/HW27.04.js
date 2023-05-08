@@ -171,6 +171,30 @@ switch(calc){
     }
 
 
+
+    //or
+    for (let i = 1 ; i <= 2000; i++) {
+        let metr = 1000 * i + 123;
+        km = metr/1000;
+        const kmText = ' кілометр'
+        let kmNumText = (km + '').split('.')[0]
+        let last = kmNumText[kmNumText.length-1]
+        let predLast = (km > 9) ? kmNumText[kmNumText.length-2] : 0;
+        //console.log(last)
+        //console.log(km)
+        
+        if (km < 1){ //0,032 or 1,564
+            console.log(km + kmText + 'а')
+        } else if(last == 1 && predLast !=1){
+            console.log(km + kmText)
+        } else if (last < 5 && last > 1 && predLast !=1){
+            console.log(km + kmText + 'и')
+        } else {
+            console.log(km + kmText + 'ів')    
+        }
+    }
+
+
     //or
     let metr = 999;
     km = metr/1000;
