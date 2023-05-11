@@ -113,6 +113,7 @@ function first(){
     second();
 
 
+    //Колбеки - - - найпростіше рішення для боротьби з асинхронністю
     function someFunctionWithCallback(param1, callbackFunction){
         console.log(`Here is my parameter: ${param1}`); //${param1} - -інтерполяція
         //виклик ф-ції в потрібному місці

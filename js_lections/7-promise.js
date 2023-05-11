@@ -1,6 +1,6 @@
 //ЦЕ ВСЕ ПРО АСИНХРОННІСТЬ
 //Promise - результат операції, яка ще не завершена, але буде завершена в визначений період в майбутньому
-
+//набагато ефективніший ніж колбеки, особливо колли більше ніж 2 діїб впорядковує всі дії
 
 //код, який імітує роботу сервера
 console.log('Запит даних з серверу...');
@@ -22,8 +22,9 @@ setTimeout(() => {
 
 
 const req = new Promise((resolve, reject) => {});
-//resolve - коли дія в Promise виконалась успішно
-//reject - коли дія в Promise виконалась НЕ успішно
+//resolve - виконується, коли дія в Promise виконалась успішно (для цього ф-ція .then)
+//reject - виконується,коли дія в Promise виконалась НЕ успішно (для цього ф-ція .catch)
+//finally - виконується в будь-якому випадку
 //Promise - для синхронізації певних дій
 
 const req2 = new Promise((resolve, reject) => {
@@ -57,7 +58,7 @@ const req3 = new Promise((resolve, reject) => {
             price: 10000
         }
 
-resolve(product); //ф-ція яка приймає рараметр
+resolve(product); //ф-ція яка приймає параметр
 
     }, 10000)
 });
@@ -66,14 +67,14 @@ resolve(product); //ф-ція яка приймає рараметр
     console.log('дані отримані');
 })*/
 
-req3.then((product) => {
+req3.then((product) => { //then_потім з req3_ф-ції буде передано в product і далі викорустовуємо + нову властивість і передаємо в консоль
     setTimeout(() => {
         product.status = 'inStock';
         console.log(product);
     }, 2000)
 })
 
-
+//припустимо, що після того, як отримали відповідь з сервера - хочемо зробити ще якісь дії в середині then
 const req4 = new Promise((resolve, reject) => {
     console.log('Запит даних з серверу...');
 
@@ -85,7 +86,7 @@ const req4 = new Promise((resolve, reject) => {
             price: 10000
         }
 
-resolve(product);
+resolve(product); //вказує де і в яких місцях виконається ця ф-ція
 
     }, 10000)
 });
@@ -94,7 +95,7 @@ req4.then((product) => {
     const req5 = new Promise ( (resolve, reject) => {
         setTimeout(() => {
             product.status = 'inStock';
-            console.log(product);
+            resolve(product);
         }, 2000)    
     })
 
@@ -104,7 +105,7 @@ req4.then((product) => {
 })
 
 
-
+//щоб Promise повертав дані - кінцевий ланцюжок з resolve
 const req8 = new Promise((resolve, reject) => {
     console.log('Запит даних з серверу...');
 
@@ -128,10 +129,7 @@ req8.then((product) => {
             console.log(product);
         }, 2000)    
     })
-
-    req5.then( product => {
-        console.log(product);
-    })
+    
 }).then( product => {
     product.isModified = true;
     return product;
@@ -140,7 +138,8 @@ req8.then((product) => {
 })
 
 
-let error = false;
+//щоб Promise повертав дані - кінцевий ланцюжок з reject
+let error = true; //щоб точно відпрацював reject
 const req9 = new Promise((resolve, reject) => {
     console.log('Запит даних з серверу...');
 
@@ -153,7 +152,8 @@ const req9 = new Promise((resolve, reject) => {
         }
 
 if(error){
-    reject(product);
+    reject(product);//(product) - щоб впевнитись, що не додались поля
+    //якщо виконався reject, то всі .then не виконуються, а виконується тільки .catch
 }
 
 resolve(product);
@@ -165,19 +165,16 @@ req9.then((product) => {
     return new Promise ( (resolve, reject) => {
         setTimeout(() => {
             product.status = 'inStock';
-            console.log(product);
+            resolve(product);
         }, 2000)    
     })
-
-    req5.then( product => {
-        console.log(product);
-    })
+    
 }).then( product => {
     product.isModified = true;
     return product;
 }).then( product => {
     console.log(product)
-}).catch( (product) => {
+}).catch( product => {
     console.log('Error happend')
     console.log(product)
 }).finally(() => {
